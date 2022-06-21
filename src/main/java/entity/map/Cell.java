@@ -1,4 +1,4 @@
-package entity.animals.map;
+package entity.map;
 
 import entity.animals.organisms.Organism;
 

@@ -1,6 +1,6 @@
 package entity;
 
-import entity.animals.map.GameMap;
+import entity.map.GameMap;
 import factory.Factory;
 
 public class Game {

@@ -1,7 +1,7 @@
 package factory;
 
-import entity.animals.map.Cell;
-import entity.animals.map.GameMap;
+import entity.map.Cell;
+import entity.map.GameMap;
 
 public class GameMapCreator {
 

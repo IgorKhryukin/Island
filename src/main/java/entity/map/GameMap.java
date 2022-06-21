@@ -1,4 +1,4 @@
-package entity.animals.map;
+package entity.map;
 
 public class GameMap {
     private final Cell[][] gameMap;

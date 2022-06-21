@@ -1,7 +1,7 @@
 package factory;
 
 import entity.animals.organisms.Organism;
-import entity.animals.map.Cell;
+import entity.map.Cell;
 import entity.animals.predators.Wolf;
 import utils.EntityFactoryData;
 
