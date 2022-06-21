@@ -1,0 +1,8 @@
+{
+  "WOLF_NAME" : "Wolf",
+  "WOLF_WEIGHT" : 20.0,
+  "WOLF_MAX_WEIGHT" : 30.0,
+  "WOLF_MAX_COUNT" : 10,
+  "WOLF_MAX_SPEED" : 20,
+  "WOLF_MAX_FOOD" : 8
+}
