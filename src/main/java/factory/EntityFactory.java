@@ -4,10 +4,11 @@ import entity.animals.organisms.Organism;
 import entity.map.Cell;
 import entity.animals.predators.Wolf;
 import utils.EntityFactoryData;
+import utils.RandomValue;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.Type;
+import java.util.*;
 
 public class EntityFactory implements Factory{
     private static final Class<?>[] TYPES = {Wolf.class};
@@ -31,7 +32,28 @@ public class EntityFactory implements Factory{
 
     @Override
     public Cell createRandomCell() {
-        return null;
+        Map<Type, Set<Organism>> residents = new HashMap<>();
+        boolean fill = RandomValue.get(50);
+        if (fill) {
+            for (Organism prototype : PROTOTYPES) {
+                Type type = prototype.getClass();
+                boolean born = RandomValue.get(50);
+                if (born) {
+                    residents.putIfAbsent(type, new HashSet<>());
+                    Set<Organism> organisms = residents.get(prototype.getClass());
+                    int currentCount = organisms.size();
+                    int max = prototype.getLimit().getMaxCount() - currentCount;
+                    int count = RandomValue.random(0, max);
+                    for (int i = 0; i < count; i++) {
+                        organisms.add(prototype.clone());
+                    }
+
+                }
+            }
+        }
+        Cell cell = new Cell(residents);
+        cell.setNextCell(new ArrayList<>());
+        return cell;
     }
 
     @Override
