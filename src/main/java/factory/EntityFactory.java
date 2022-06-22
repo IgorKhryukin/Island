@@ -2,8 +2,8 @@ package factory;
 
 import entity.animals.herbivores.Horse;
 import entity.animals.organisms.Organism;
+import entity.animals.predators.*;
 import entity.map.Cell;
-import entity.animals.predators.Wolf;
 import utils.EntityFactoryData;
 import utils.RandomValue;
 
@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 public class EntityFactory implements Factory{
-    private static final Class<?>[] TYPES = {Wolf.class, Horse.class};
+    private static final Class<?>[] TYPES = {Wolf.class, Horse.class, Bear.class};
     private static final Organism[] PROTOTYPES;
 
     static {

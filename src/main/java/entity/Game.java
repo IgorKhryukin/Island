@@ -14,4 +14,16 @@ public class Game {
         this.entityFactory = entityFactory;
         this.view = view;
     }
+
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+
+    public Factory getEntityFactory() {
+        return entityFactory;
+    }
+
+    public View getView() {
+        return view;
+    }
 }

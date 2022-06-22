@@ -1,8 +1,10 @@
 package entity.animals.organisms;
 
+import actions.Reproducible;
+
 import java.util.concurrent.atomic.AtomicLong;
 
-public abstract class Organism implements Cloneable{
+public abstract class Organism implements Cloneable, Reproducible {
 
     private final static AtomicLong idCounter = new AtomicLong(System.currentTimeMillis());
 

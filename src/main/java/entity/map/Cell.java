@@ -6,10 +6,17 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Cell {
     private final Map<Type, Set<Organism>> residents;
     private List<Cell> nextCell;
+    private final Lock lock = new ReentrantLock(true);
+
+    public Lock getLock() {
+        return lock;
+    }
 
     public Cell(Map<Type, Set<Organism>> residents) {
         this.residents = residents;

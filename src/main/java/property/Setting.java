@@ -24,4 +24,31 @@ public class Setting {
     public static final int HORSE_MAX_SPEED = 4;
     public static final int HORSE_MAX_FOOD = 60;
 
+    //Настройки для удава
+    public static final String BOA_NAME = "Boa";
+    public static final String BOA_ICON = "\uD83D\uDC0D";
+    public static final double BOA_WEIGHT = 15;
+    public static final double BOA_MAX_WEIGHT = 15;
+    public static final int BOA_MAX_COUNT = 30;
+    public static final int BOA_MAX_SPEED = 1;
+    public static final int BOA_MAX_FOOD = 3;
+
+    //Настройки для лисы
+    public static final String FOX_NAME = "Fox";
+    public static final String FOX_ICON = "\uD83E\uDD8A";
+    public static final double FOX_WEIGHT = 8;
+    public static final double FOX_MAX_WEIGHT = 8;
+    public static final int FOX_MAX_COUNT = 30;
+    public static final int FOX_MAX_SPEED = 2;
+    public static final int FOX_MAX_FOOD = 2;
+
+    //Настройки для лисы
+    public static final String BEAR_NAME = "Bear";
+    public static final String BEAR_ICON = "\uD83D\uDC3B";
+    public static final double BEAR_WEIGHT = 500;
+    public static final double BEAR_MAX_WEIGHT = 500;
+    public static final int BEAR_MAX_COUNT = 5;
+    public static final int BEAR_MAX_SPEED = 2;
+    public static final int BEAR_MAX_FOOD = 80;
+
 }
