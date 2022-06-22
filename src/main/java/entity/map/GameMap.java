@@ -1,21 +1,21 @@
 package entity.map;
 
 public class GameMap {
-    private final Cell[][] gameMap;
+    private final Cell[][] cells;
 
     public GameMap(int rows, int cols) {
-        this.gameMap = new Cell[rows][cols];
+        this.cells = new Cell[rows][cols];
     }
 
-    public Cell[][] getGameMap() {
-        return gameMap;
+    public Cell[][] getCells() {
+        return cells;
     }
 
     public int getRows() {
-        return gameMap.length;
+        return cells.length;
     }
 
     public int getCols() {
-        return gameMap[0].length;
+        return cells[0].length;
     }
 }

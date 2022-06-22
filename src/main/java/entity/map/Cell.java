@@ -8,15 +8,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class Cell {
-    private final Map<Type, Set<Organism>> organismInCell;
+    private final Map<Type, Set<Organism>> residents;
     private List<Cell> nextCell;
 
-    public Cell(Map<Type, Set<Organism>> organismInCell) {
-        this.organismInCell = organismInCell;
+    public Cell(Map<Type, Set<Organism>> residents) {
+        this.residents = residents;
     }
 
-    public Map<Type, Set<Organism>> getOrganismInCell() {
-        return organismInCell;
+    public Map<Type, Set<Organism>> getResidents() {
+        return residents;
     }
 
     public void setNextCell(List<Cell> nextCell) {

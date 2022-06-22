@@ -14,9 +14,9 @@ public class GameMapCreator {
         this.entityFactory = entityFactory;
     }
 
-    public GameMap createRandomGameMap (int rows, int cols){
+    public GameMap createRandomFilledGameMap(int rows, int cols){
         GameMap gameMap = new GameMap(rows, cols);
-        Cell[][] cells = gameMap.getGameMap();
+        Cell[][] cells = gameMap.getCells();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
                 cells[i][j] = entityFactory.createRandomCell();
