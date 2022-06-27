@@ -27,7 +27,8 @@ public class OrganismWorker implements Runnable {
                 Set<Organism> organisms = cell.getResidents().get(type);
                 for (Organism organism : organisms) {
                     if (organism instanceof Animal animal) {
-                        Cell destination = animal.move(cell);
+                        //Cell destination = animal.move(cell);
+                        animal.move(cell);
                         //animal.eat(destination);
                         //animal.spawn(destination);
                     } else {

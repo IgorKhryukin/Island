@@ -2,7 +2,8 @@ package factory;
 
 import entity.animals.herbivores.Horse;
 import entity.animals.organisms.Organism;
-import entity.animals.predators.*;
+import entity.animals.predators.Wolf;
+import entity.animals.predators.Bear;
 import entity.map.Cell;
 import utils.EntityFactoryData;
 import utils.RandomValue;

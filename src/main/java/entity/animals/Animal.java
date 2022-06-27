@@ -18,19 +18,23 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
 
     @Override
     public Cell move(Cell startCell) {
-        /*int countCellForStep = this.getLimit().getMaxSpeed();
-        List<Cell> cel = startCell.getNextCell();
-        while(countCellForStep != 0){
-            Cell nextCell = cel.stream().findAny().get();
-        }*/
         int countCellForStep = this.getLimit().getMaxSpeed();
+        List<Cell> cel = startCell.getNextCell();
+        Cell nextCell = cel.stream().findAny().get();
+
+        removeMe(startCell);
+        addMe(nextCell);
+        return nextCell;
+
+        /*int countCellForStep = this.getLimit().getMaxSpeed();
         Cell last = findLastCell(startCell, countCellForStep);
         removeMe(startCell);
         addMe(last);
-        return last;
+        return last;*/
     }
 
     private Cell findLastCell(Cell startCell, int countCellForStep) {
+        Cell newCell = new Cell(startCell.getResidents());
         Set<Cell> visitedCells = new HashSet<>();
         while (visitedCells.size() < countCellForStep) {
             var nextCells = startCell
@@ -40,13 +44,13 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
                     .toList();
             int countDirections = nextCells.size();
             if (countDirections > 0) {
-                startCell = nextCells.get(ThreadLocalRandom.current().nextInt(countDirections));
-                visitedCells.add(startCell);
+                newCell = nextCells.get(ThreadLocalRandom.current().nextInt(countDirections));
+                visitedCells.add(newCell);
             } else {
                 break;
             }
         }
-        return startCell;
+        return newCell;
     }
 
     private void addMe(Cell cell) {
