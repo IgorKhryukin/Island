@@ -2,16 +2,21 @@ package services;
 
 import entity.animals.Animal;
 import entity.animals.organisms.Organism;
+import entity.animals.predators.Wolf;
 import entity.map.Cell;
 import entity.map.GameMap;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class OrganismWorker implements Runnable {
 
     private final Organism prototype;
     private final GameMap gameMap;
+    private final Queue<Task> tasks = new ConcurrentLinkedQueue<>();
 
     public OrganismWorker(Organism prototype, GameMap gameMap) {
         this.prototype = prototype;
@@ -23,19 +28,63 @@ public class OrganismWorker implements Runnable {
         Cell[][] cells = gameMap.getCells();
         for (Cell[] row : cells) {
             for (Cell cell : row) {
-                Type type = prototype.getClass();
-                Set<Organism> organisms = cell.getResidents().get(type);
-                for (Organism organism : organisms) {
-                    if (organism instanceof Animal animal) {
-                        //Cell destination = animal.move(cell);
-                        animal.move(cell);
-                        //animal.eat(destination);
-                        //animal.spawn(destination);
-                    } else {
-                        prototype.spawn(cell);
-                    }
+                try {
+                    processOneCell(cell);
+                } catch (Exception e) {
+                    //TODO replace it -> throw...
+                    e.printStackTrace();
+                    System.err.println("OMG. Debug it!");
+                    System.exit(0);
                 }
             }
+        }
+    }
+
+    private void processOneCell(Cell cell) {
+        /*String type = prototype.getType();
+        System.out.println(type);
+        Set<Organism> organisms = cell.getResidents().get(type);
+        if (Objects.nonNull(organisms)) {
+            cell.getLock().lock(); //ONLY READ
+            try {
+                organisms.forEach(organism -> {
+
+                    if (organism instanceof Animal animal) {
+
+                        animal.move(cell);
+                    }
+                });
+
+            } finally {
+                cell.getLock().unlock();
+            }
+        }*/
+        String type = prototype.getType();
+        Set<Organism> organisms = cell.getResidents().get(type);
+        if (Objects.nonNull(organisms)) {
+            //build tasks (need correct iteration, without any modification)
+            cell.getLock().lock(); //ONLY READ
+            try {
+                organisms.forEach(organism -> {
+                    //here possible action-cycle for entity (enum, collection or array)
+                    Task task = new Task(organism, o -> {
+                        o.spawn(cell);
+                        if (organism instanceof Animal animal) {
+                            //animal.eat(cell);
+                            animal.move(cell);
+                        }
+                    });
+                    tasks.add(task);
+                });
+            } finally {
+                cell.getLock().unlock();
+            }
+
+            //run tasks
+            //see CQRS pattern or CommandBus pattern and Producer-Consumer problem.
+            //This cycle can to run in other thread or threads (pool)
+            tasks.forEach(Task::run);
+            tasks.clear();
         }
     }
 }

@@ -22,7 +22,7 @@ public class GameWorker extends Thread {
 
         List<OrganismWorker> workers = game.getEntityFactory().getAllPrototypes()
                 .stream()
-                .map(p -> new OrganismWorker(p, game.getGameMap()))
+                .map(o -> new OrganismWorker(o, game.getGameMap()))
                 .toList();
         mainPool.scheduleAtFixedRate(() -> {
             ExecutorService servicePool = Executors.newFixedThreadPool(4);

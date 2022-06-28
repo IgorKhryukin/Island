@@ -34,22 +34,22 @@ public class EntityFactory implements Factory{
 
     @Override
     public Cell createRandomCell() {
-        Map<Type, Set<Organism>> residents = new HashMap<>();
+        Map<String, Set<Organism>> residents = new HashMap<>();
         boolean fill = RandomValue.get(50);
         if (fill) {
             for (Organism prototype : PROTOTYPES) {
-                Type type = prototype.getClass();
+                String type = prototype.getType();
                 boolean born = RandomValue.get(50);
                 if (born) {
                     residents.putIfAbsent(type, new HashSet<>());
-                    Set<Organism> organisms = residents.get(prototype.getClass());
+                    Set<Organism> organisms = residents.get(prototype.getType());
                     int currentCount = organisms.size();
                     int max = prototype.getLimit().getMaxCount() - currentCount;
                     int count = RandomValue.random(0, max);
                     for (int i = 0; i < count; i++) {
                         organisms.add(prototype.clone());
                     }
-
+                    //System.out.println(organisms);
                 }
             }
         }

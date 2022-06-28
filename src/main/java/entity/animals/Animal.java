@@ -18,22 +18,22 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
 
     @Override
     public Cell move(Cell startCell) {
-        int countCellForStep = this.getLimit().getMaxSpeed();
+        /*int countCellForStep = this.getLimit().getMaxSpeed();
         List<Cell> cel = startCell.getNextCell();
         Cell nextCell = cel.stream().findAny().get();
 
-        removeMe(startCell);
         addMe(nextCell);
-        return nextCell;
-
-        /*int countCellForStep = this.getLimit().getMaxSpeed();
-        Cell last = findLastCell(startCell, countCellForStep);
         removeMe(startCell);
-        addMe(last);
-        return last;*/
+        return nextCell;*/
+        int countStep = this.getLimit().getMaxSpeed();
+        Cell destinationCell = startCell.getNextCells(countStep);
+        removeMe(startCell);
+        addMe(destinationCell);
+        return destinationCell;
+
     }
 
-    private Cell findLastCell(Cell startCell, int countCellForStep) {
+    /*private Cell findLastCell(Cell startCell, int countCellForStep) {
         Cell newCell = new Cell(startCell.getResidents());
         Set<Cell> visitedCells = new HashSet<>();
         while (visitedCells.size() < countCellForStep) {
@@ -51,16 +51,38 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
             }
         }
         return newCell;
-    }
+    }*/
 
     private void addMe(Cell cell) {
-        safeModification(cell, c -> c.getResidents().get(this.getClass()).add(this));
+        //safeModification(cell, c -> c.getResidents().get(this.getClass()).add(this));
         //cell.getResidents().get(this.getClass()).add(this);
+        cell.getLock().lock();
+        try {
+            Set<Organism> set = cell.getResidents().get(getType());
+            if(Objects.nonNull(set)){
+                int maxCount = getLimit().getMaxCount();
+                set.add(this);
+            } else {
+                Map<String, Set<Organism>> residents = cell.getResidents();
+                residents.put(this.getType(), new HashSet<>());
+                Set<Organism> organisms = residents.get(getType());
+                organisms.add(this);
+            }
+
+        } finally {
+            cell.getLock().unlock();
+        }
     }
 
     private void removeMe(Cell cell) {
-        safeModification(cell, c -> c.getResidents().get(this.getClass()).remove(this));
+        //safeModification(cell, c -> c.getResidents().get(this.getClass()).remove(this));
         //cell.getResidents().get(this.getClass()).remove(this);
+        cell.getLock().lock();
+        try {
+            cell.getResidents().get(getType()).remove(this);
+        } finally {
+            cell.getLock().unlock();
+        }
     }
 
     private void safeModification(Cell cell, Consumer<Cell> operation) {
@@ -79,7 +101,7 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
     @Override
     public void spawn(Cell currentCell) {
         Type type = this.getClass();
-        Map<Type, Set<Organism>> residents = currentCell.getResidents();
+        Map<String, Set<Organism>> residents = currentCell.getResidents();
         Set<Organism> organisms = residents.get(type);
         if (Objects.nonNull(organisms) && organisms.contains(this) && organisms.size() > 2) {
             bornClone(currentCell);

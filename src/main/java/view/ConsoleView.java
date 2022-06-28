@@ -27,7 +27,7 @@ public class ConsoleView implements View{
         Map<String, Integer> map = new HashMap<>();
         for (Cell[] row : cells) {
             for (Cell cell : row) {
-                Map<Type, Set<Organism>> residents = cell.getResidents();
+                Map<String, Set<Organism>> residents = cell.getResidents();
                 residents.values().stream()
                         .filter(s->s.size()>0)
                         //.forEach(s->map.put(s.stream().findAny().get().toString(),s.size()));

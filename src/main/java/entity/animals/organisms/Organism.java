@@ -1,14 +1,15 @@
 package entity.animals.organisms;
 
 import actions.Reproducible;
+import utils.RandomValue;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class Organism implements Cloneable, Reproducible {
 
     private final static AtomicLong idCounter = new AtomicLong(System.currentTimeMillis());
-
-    private final long id = idCounter.incrementAndGet();
+    private final String type = this.getClass().getSimpleName();
+    private long id = idCounter.incrementAndGet();
     private String name;
     private String icon;
     private double weight;
@@ -58,10 +59,17 @@ public abstract class Organism implements Cloneable, Reproducible {
         this.limit = limit;
     }
 
+    public String getType() {
+        return type;
+    }
+
     @Override
     public Organism clone() {
         try {
-            return (Organism) super.clone();
+            Organism clone = (Organism) super.clone();
+            clone.id = idCounter.incrementAndGet();
+            clone.weight = RandomValue.random(limit.getMaxWeight() / 2, limit.getMaxWeight());
+            return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError("cannot clone " + this);
         }
