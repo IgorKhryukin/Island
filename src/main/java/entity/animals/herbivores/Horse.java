@@ -1,9 +1,8 @@
 package entity.animals.herbivores;
 
 import entity.animals.Animal;
-import entity.animals.organisms.Limit;
-import entity.animals.organisms.Organism;
-import entity.animals.predators.Wolf;
+import entity.organisms.Limit;
+import entity.organisms.Organism;
 import property.Setting;
 
 public class Horse extends Animal {

@@ -1,13 +1,9 @@
 package utils;
 
-import entity.animals.herbivores.Horse;
-import entity.animals.organisms.Organism;
-import entity.animals.predators.Bear;
-import entity.animals.predators.Wolf;
+import entity.organisms.Organism;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 public class EntityFactoryData {
     public EntityFactoryData(){

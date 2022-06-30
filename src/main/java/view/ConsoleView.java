@@ -1,10 +1,9 @@
 package view;
 
-import entity.animals.organisms.Organism;
+import entity.organisms.Organism;
 import entity.map.Cell;
 import entity.map.GameMap;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -43,7 +42,7 @@ public class ConsoleView implements View{
         return map.toString();
     }
 
-    public String showStat(){
+    public String showGeneralStatistics(){
         Map<String, Integer> statistics = new HashMap<>();
         Cell[][] cells = gameMap.getCells();
         for (Cell[] row : cells) {

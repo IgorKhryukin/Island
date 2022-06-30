@@ -1,7 +1,4 @@
 import entity.Game;
-import entity.animals.Animal;
-import entity.animals.organisms.Organism;
-import entity.map.Cell;
 import entity.map.GameMap;
 import factory.EntityFactory;
 import factory.Factory;
@@ -10,10 +7,6 @@ import property.Setting;
 import services.GameWorker;
 import view.ConsoleView;
 import view.View;
-
-import java.lang.reflect.Type;
-import java.util.Map;
-import java.util.Set;
 
 
 public class ConsoleRunner {

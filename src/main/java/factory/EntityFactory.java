@@ -1,19 +1,19 @@
 package factory;
 
 import entity.animals.herbivores.Horse;
-import entity.animals.organisms.Organism;
+import entity.organisms.Organism;
 import entity.animals.predators.Wolf;
 import entity.animals.predators.Bear;
 import entity.map.Cell;
+import entity.plants.Plant;
 import utils.EntityFactoryData;
 import utils.RandomValue;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class EntityFactory implements Factory{
-    private static final Class<?>[] TYPES = {Wolf.class, Horse.class, Bear.class};
+    private static final Class<?>[] TYPES = {Wolf.class, Horse.class, Bear.class, Plant.class};
     private static final Organism[] PROTOTYPES;
 
     static {

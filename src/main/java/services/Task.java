@@ -1,6 +1,6 @@
 package services;
 
-import entity.animals.organisms.Organism;
+import entity.organisms.Organism;
 
 import java.util.function.Consumer;
 

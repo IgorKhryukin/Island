@@ -2,13 +2,11 @@ package entity.animals;
 
 import actions.Movable;
 import actions.Reproducible;
-import entity.animals.organisms.Limit;
-import entity.animals.organisms.Organism;
+import entity.organisms.Limit;
+import entity.organisms.Organism;
 import entity.map.Cell;
 
-import java.lang.reflect.Type;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 public abstract class Animal extends Organism implements Movable, Reproducible {
@@ -83,10 +81,6 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
         }
     }
 
-    /*private void bornClone(Cell cell) {
-        safeModification(cell, c -> c.getResidents().get(this.getClass()).add(this.clone()));
-    }*/
-
     @Override
     public void spawn(Cell currentCell) {
         /*Set<Organism> organisms = currentCell.getResidents().get(this.getType());
@@ -100,18 +94,41 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
     private void safeSpawnAnimal(Cell currentCell) {
         currentCell.getLock().lock();
         try {
-            Set<Organism> organisms = currentCell.getResidents().get(this.getType());
-            double maxWeight = this.getLimit().getMaxWeight();
-            if (this.getWeight() > maxWeight / 2 &&
+            Set<Organism> organisms = currentCell.getResidents().get(getType());
+            double maxWeight = getLimit().getMaxWeight();
+            if (/*this.getWeight() > maxWeight / 2 &&*/
                     organisms.contains(this) &&
                     organisms.size() >= 2 &&
-                    organisms.size() < this.getLimit().getMaxCount()) {
-                double childWeight = this.getLimit().getMaxWeight() / 4;
+                    organisms.size() < getLimit().getMaxCount()) {
+                double childWeight = getLimit().getMaxWeight() / 4;
                 this.setWeight(this.getWeight() - childWeight);
                 Organism clone = this.clone();
                 clone.setWeight(childWeight);
                 organisms.add(clone);
             }
+        } finally {
+            currentCell.getLock().unlock();
+        }
+    }
+    private void safeSpawnAnimal2(Cell currentCell) {
+        currentCell.getLock().lock();
+        try {
+            Set<Organism> organisms = currentCell.getResidents().get(getType());
+            double maxWeight = getLimit().getMaxWeight();
+            if(Objects.nonNull(organisms)){
+                if (this.getWeight() > maxWeight / 2 && organisms.size() >= 2 && organisms.size() < getLimit().getMaxCount()) {
+                    double childWeight = getLimit().getMaxWeight() / 4;
+                    this.setWeight(this.getWeight() - childWeight);
+                    Organism clone = this.clone();
+                    clone.setWeight(childWeight);
+                    organisms.add(clone);
+                }
+            } /*else {
+                Map<String, Set<Organism>> residents = currentCell.getResidents();
+                residents.put(this.getType(), new HashSet<>());
+                Set<Organism> organism = residents.get(getType());
+                organism.add(this);
+            }*/
         } finally {
             currentCell.getLock().unlock();
         }

@@ -1,4 +1,4 @@
-package entity.animals.organisms;
+package entity.organisms;
 
 public class Limit {
     private double maxWeight = 0;

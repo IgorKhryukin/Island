@@ -1,4 +1,4 @@
-package entity.animals.organisms;
+package entity.organisms;
 
 import actions.Reproducible;
 import utils.RandomValue;

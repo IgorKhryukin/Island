@@ -1,12 +1,10 @@
 package services;
 
 import entity.animals.Animal;
-import entity.animals.organisms.Organism;
-import entity.animals.predators.Wolf;
+import entity.organisms.Organism;
 import entity.map.Cell;
 import entity.map.GameMap;
 
-import java.lang.reflect.Type;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
@@ -50,10 +48,10 @@ public class OrganismWorker implements Runnable {
                 organisms.forEach(organism -> {
                     //here possible action-cycle for entity (enum, collection or array)
                     Task task = new Task(organism, o -> {
-                        //o.spawn(cell);
+                        o.spawn(cell);
                         if (organism instanceof Animal animal) {
                             //animal.eat(cell);
-                            animal.spawn(cell);
+                            //animal.spawn(cell);
                             animal.move(cell);
                         }
                     });

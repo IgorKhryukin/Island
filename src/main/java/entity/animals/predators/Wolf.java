@@ -1,7 +1,7 @@
 package entity.animals.predators;
 
-import entity.animals.organisms.Limit;
-import entity.animals.organisms.Organism;
+import entity.organisms.Limit;
+import entity.organisms.Organism;
 import entity.animals.Animal;
 import property.Setting;
 

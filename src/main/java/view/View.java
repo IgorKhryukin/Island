@@ -5,5 +5,5 @@ public interface View {
 
     String showMap();
 
-    String showStat();
+    String showGeneralStatistics();
 }

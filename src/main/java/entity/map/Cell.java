@@ -1,9 +1,8 @@
 package entity.map;
 
-import entity.animals.organisms.Organism;
+import entity.organisms.Organism;
 import utils.RandomValue;
 
-import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;

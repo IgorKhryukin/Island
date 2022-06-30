@@ -31,7 +31,7 @@ public class GameWorker extends Thread {
             try {
                 if (servicePool.awaitTermination(PERIOD, TimeUnit.MILLISECONDS)) {
                     game.getView().showMap();
-                    game.getView().showStat();
+                    game.getView().showGeneralStatistics();
                     game.getView().showStatistics();
                 }
             } catch (InterruptedException e) {
