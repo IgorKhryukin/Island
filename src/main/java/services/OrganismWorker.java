@@ -41,24 +41,6 @@ public class OrganismWorker implements Runnable {
     }
 
     private void processOneCell(Cell cell) {
-        /*String type = prototype.getType();
-        System.out.println(type);
-        Set<Organism> organisms = cell.getResidents().get(type);
-        if (Objects.nonNull(organisms)) {
-            cell.getLock().lock(); //ONLY READ
-            try {
-                organisms.forEach(organism -> {
-
-                    if (organism instanceof Animal animal) {
-
-                        animal.move(cell);
-                    }
-                });
-
-            } finally {
-                cell.getLock().unlock();
-            }
-        }*/
         String type = prototype.getType();
         Set<Organism> organisms = cell.getResidents().get(type);
         if (Objects.nonNull(organisms)) {
@@ -68,9 +50,10 @@ public class OrganismWorker implements Runnable {
                 organisms.forEach(organism -> {
                     //here possible action-cycle for entity (enum, collection or array)
                     Task task = new Task(organism, o -> {
-                        o.spawn(cell);
+                        //o.spawn(cell);
                         if (organism instanceof Animal animal) {
                             //animal.eat(cell);
+                            animal.spawn(cell);
                             animal.move(cell);
                         }
                     });

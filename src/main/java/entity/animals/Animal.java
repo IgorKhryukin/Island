@@ -18,13 +18,6 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
 
     @Override
     public Cell move(Cell startCell) {
-        /*int countCellForStep = this.getLimit().getMaxSpeed();
-        List<Cell> cel = startCell.getNextCell();
-        Cell nextCell = cel.stream().findAny().get();
-
-        addMe(nextCell);
-        removeMe(startCell);
-        return nextCell;*/
         int countStep = this.getLimit().getMaxSpeed();
         Cell destinationCell = startCell.getNextCells(countStep);
         removeMe(startCell);
@@ -54,12 +47,10 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
     }*/
 
     private void addMe(Cell cell) {
-        //safeModification(cell, c -> c.getResidents().get(this.getClass()).add(this));
-        //cell.getResidents().get(this.getClass()).add(this);
         cell.getLock().lock();
         try {
             Set<Organism> set = cell.getResidents().get(getType());
-            if(Objects.nonNull(set)){
+            if (Objects.nonNull(set)) {
                 int maxCount = getLimit().getMaxCount();
                 set.add(this);
             } else {
@@ -75,8 +66,6 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
     }
 
     private void removeMe(Cell cell) {
-        //safeModification(cell, c -> c.getResidents().get(this.getClass()).remove(this));
-        //cell.getResidents().get(this.getClass()).remove(this);
         cell.getLock().lock();
         try {
             cell.getResidents().get(getType()).remove(this);
@@ -94,17 +83,37 @@ public abstract class Animal extends Organism implements Movable, Reproducible {
         }
     }
 
-    private void bornClone(Cell cell) {
+    /*private void bornClone(Cell cell) {
         safeModification(cell, c -> c.getResidents().get(this.getClass()).add(this.clone()));
-    }
+    }*/
 
     @Override
     public void spawn(Cell currentCell) {
-        Type type = this.getClass();
-        Map<String, Set<Organism>> residents = currentCell.getResidents();
-        Set<Organism> organisms = residents.get(type);
+        /*Set<Organism> organisms = currentCell.getResidents().get(this.getType());
         if (Objects.nonNull(organisms) && organisms.contains(this) && organisms.size() > 2) {
-            bornClone(currentCell);
+            //bornClone(currentCell);
+            safeSpawnAnimal(currentCell);
+        }*/
+        safeSpawnAnimal(currentCell);
+    }
+
+    private void safeSpawnAnimal(Cell currentCell) {
+        currentCell.getLock().lock();
+        try {
+            Set<Organism> organisms = currentCell.getResidents().get(this.getType());
+            double maxWeight = this.getLimit().getMaxWeight();
+            if (this.getWeight() > maxWeight / 2 &&
+                    organisms.contains(this) &&
+                    organisms.size() >= 2 &&
+                    organisms.size() < this.getLimit().getMaxCount()) {
+                double childWeight = this.getLimit().getMaxWeight() / 4;
+                this.setWeight(this.getWeight() - childWeight);
+                Organism clone = this.clone();
+                clone.setWeight(childWeight);
+                organisms.add(clone);
+            }
+        } finally {
+            currentCell.getLock().unlock();
         }
     }
 }

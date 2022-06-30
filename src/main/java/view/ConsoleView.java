@@ -7,6 +7,7 @@ import entity.map.GameMap;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -40,6 +41,27 @@ public class ConsoleView implements View{
         }
         //System.out.println(map);
         return map.toString();
+    }
+
+    public String showStat(){
+        Map<String, Integer> statistics = new HashMap<>();
+        Cell[][] cells = gameMap.getCells();
+        for (Cell[] row : cells) {
+            for (Cell cell : row) {
+                var residents = cell.getResidents();
+                if (Objects.nonNull(residents)) {
+                    residents.values().stream()
+                            .filter(set -> set.size() > 0)
+                            .forEach(set -> {
+                                        String icon = set.stream().findAny().get().getIcon();
+                                        statistics.put(icon, statistics.getOrDefault(icon, 0) + set.size());
+                                    }
+                            );
+                }
+            }
+        }
+        System.out.println(statistics + "\n");
+        return statistics.toString();
     }
 
     @Override
